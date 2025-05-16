@@ -1,0 +1,12 @@
+scale; major; 1, 2, 3, 4, 5, 6, 7, 8; false
+scale; natural minor; 1, 2, b3, 4, 5, b6, b7, 8; false
+scale; harmonic minor; 1, 2, b3, 4, 5, b6, 7, 8; false
+scale; melodic minor (ascending); 1, 2, b3, 4, 5, 6, 7, 8; false
+scale; melodic minor (descending); 1, 2, b3, 4, 5, b6, b7, 8; false
+scale; major pentatonic; 1, 2, 3, 5, 6, 8; false
+scale; minor pentatonic; 1, b3, 4, 5, b7, 8; false
+scale; blues; 1, b3, 4, b5, 5, b7, 8; false
+scale; chromatic; 1, #1, 2, #2, 3, 4, #4, 5, #5, 6, #6, 7, 8; true
+scale; whole-tone; 1, 2, 3, b5, b6, b7, 8; true
+scale; octatonic (tone-semitone); 1, 2, b3, 4, b5, b6, 6, 7, 8; true
+scale; octatonic (semitone-tone); 1, b2, b3, 3, #4, 5, 6, b7, 8; true
