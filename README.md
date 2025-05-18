@@ -1,2 +1,4 @@
 # scale-library
-A music library system where users can look up scales and arpeggios or create their own
+A text-based music library system where users can look up scales and arpeggios or create their own.
+
+This was a side project completed while I was a computer science student.
