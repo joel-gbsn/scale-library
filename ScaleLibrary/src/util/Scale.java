@@ -16,11 +16,14 @@ public class Scale {
 	
 	Interval[] intervals;
 	
-	public Scale(String name, String subtype, String format, Interval[] intervals) {
+	boolean simplify;
+	
+	public Scale(String format, String name, String subtype, Interval[] intervals, boolean simplify) {
+		this.format = format;
 		this.name = name;
 		this.subtype = subtype;
-		this.format = format;
 		this.intervals = intervals;
+		this.simplify = simplify;
 	}
 	
 }

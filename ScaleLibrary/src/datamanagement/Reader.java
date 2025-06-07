@@ -39,15 +39,21 @@ public class Reader {
 				
 				String format = data[0].toLowerCase().trim();
 				String name = data[1].toLowerCase().trim();
-				String[] intervalList = data[2].split(",\\s*");
-				boolean simplify = Boolean.valueOf(data[3].trim());
+				String subtype = data[2].toLowerCase().trim();
+				
+				if (subtype.isEmpty()) {
+					subtype = null;
+				}
+				
+				String[] intervalList = data[3].split(",\\s*");
+				boolean simplify = Boolean.valueOf(data[4].trim());
 				
 				Interval[] intervals = new Interval[intervalList.length];
 				for (int i = 0; i < intervalList.length; i++) {
 					intervals[i] = Interval.getInterval(intervalList[i]);
 				}
 				
-				scales.add(new Scale(name, name, format, intervals));
+				scales.add(new Scale(format, name, subtype, intervals, simplify));
 			}
 			
 		} catch (IOException e) {
