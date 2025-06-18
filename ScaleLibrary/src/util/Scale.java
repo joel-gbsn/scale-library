@@ -8,7 +8,7 @@ import java.util.Map;
 public class Scale {
 	
 	// structure for memoization
-	Map<String, List<Note>> scales = new HashMap<String, List<Note>>();
+	Map<String, List<Note>> scales = new HashMap<>();
 	
 	// e.g. melodic minor
 	String name;
@@ -16,15 +16,11 @@ public class Scale {
 	// e.g. ascending
 	String subtype;
 	
-	// e.g. scale
-	String format;
-	
 	Interval[] intervals;
 	
 	boolean simplify;
 	
-	public Scale(String format, String name, String subtype, Interval[] intervals, boolean simplify) {
-		this.format = format;
+	public Scale(String name, String subtype, Interval[] intervals, boolean simplify) {
 		this.name = name;
 		this.subtype = subtype;
 		this.intervals = intervals;
