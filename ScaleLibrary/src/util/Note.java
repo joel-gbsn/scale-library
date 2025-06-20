@@ -5,14 +5,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import notes.Interval;
-import notes.Note;
-
 public class Note {
 	
-	private String letter;
-	private String accidental;
-	private int semitoneChange;
+	String letter;
+	String accidental;
+	int semitoneChange;
 	
 	public static final String[] LETTER_NAMES = {"A", "B", "C", "D", "E", "F", "G"};
 	
