@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import processor.Processor;
+import util.Note;
 
 public class UserInterface {
 	
@@ -26,7 +27,7 @@ public class UserInterface {
 			if (option == 0) {
 				break;
 			} else if (option == 1) {
-				searchScales();
+				selectScale();
 			} else if (option == 2) {
 				
 			} else if (option == 3) {
@@ -40,12 +41,53 @@ public class UserInterface {
 		scanner.close();
 	}
 	
-	public void searchScales() {
+	public void selectScale() {
 		printHeading("Search scales");
 		List<String> scales = processor.getScaleNames();
 		for (int i = 0; i < scales.size(); i++) {
-			System.out.println((i + 1) + ". " + "scales[i]");
+			System.out.println((i + 1) + ". " + scales.get(i));
 		}
+		
+		System.out.println();
+		int option = getOption(scales.size());
+		if (option == 0) {
+			return;
+		}
+		
+		processor.setCurrentScale(option - 1);
+		searchScale();
+	}
+	
+	public void searchScale() {
+		String scaleName = processor.getScaleName();
+		
+		printHeading("Search " + scaleName + " scales");
+		
+		System.out.println("Interval pattern: " + processor.getIntervalSequence() + "\n");
+		
+		String input = "";
+		while (true) {
+			System.out.println("Enter a root note, or 'q' to quit: ");
+			input = getUserInput();
+			
+			if ("q".equals(input.toLowerCase())) {
+				break;
+			}
+			
+			Note root = Note.getNote(input);
+			if (root == null) {
+				System.out.println("Invalid note name.\n");
+				continue;
+			}
+			
+			System.out.println(root + " " + scaleName + " scale:");
+			System.out.println(processor.getNoteSequence(root.toString()));
+		}
+		
+	}
+	
+	public boolean isValidNote(String note) {
+		return null != Note.getNote(note);
 	}
 	
 	private String getUserInput() {
@@ -63,7 +105,7 @@ public class UserInterface {
 	 */
 	private int getOption(int numOptions) {
 		// keep prompting user until they enter an option number within range
-		int option = -1;
+		int option;
 		while (true) {
 			// prompt user to enter a number
 			System.out.print("Enter an option number, or 0 to quit: ");
@@ -105,6 +147,7 @@ public class UserInterface {
 		System.out.println("2. Search custom scales.");
 		System.out.println("3. Create custom scale.");
 		System.out.println("4. Delete custom scale.");
+		System.out.println();
 	}
 
 }

@@ -13,16 +13,12 @@ public class Scale {
 	// e.g. melodic minor
 	String name;
 	
-	// e.g. ascending
-	String subtype;
-	
-	Interval[] intervals;
+	public Interval[] intervals;
 	
 	boolean simplify;
 	
-	public Scale(String name, String subtype, Interval[] intervals, boolean simplify) {
+	public Scale(String name, Interval[] intervals, boolean simplify) {
 		this.name = name;
-		this.subtype = subtype;
 		this.intervals = intervals;
 		this.simplify = simplify;
 	}
@@ -45,11 +41,7 @@ public class Scale {
 		return name;
 	}
 	
-	public String getSubtype() {
-		return subtype;
-	}
-	
-	private List<Note> generateScale(String root) {
+	public List<Note> generateScale(String root) {
 		List<Note> scale = new ArrayList<>();
 		
 		return scale;

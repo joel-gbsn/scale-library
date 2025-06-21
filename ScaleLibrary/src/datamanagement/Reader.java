@@ -38,21 +38,15 @@ public class Reader {
 				String data[] = line.trim().split(";\\s*");
 				
 				String name = data[0].toLowerCase().trim();
-				String subtype = data[1].toLowerCase().trim();
-				
-				if (subtype.isEmpty()) {
-					subtype = null;
-				}
-				
-				String[] intervalList = data[2].split(",\\s*");
-				boolean simplify = Boolean.valueOf(data[3].trim());
+				String[] intervalList = data[1].split(",\\s*");
+				boolean simplify = Boolean.valueOf(data[2].trim());
 				
 				Interval[] intervals = new Interval[intervalList.length];
 				for (int i = 0; i < intervalList.length; i++) {
 					intervals[i] = Interval.getInterval(intervalList[i]);
 				}
 				
-				scales.add(new Scale(name, subtype, intervals, simplify));
+				scales.add(new Scale(name, intervals, simplify));
 			}
 			
 		} catch (IOException e) {

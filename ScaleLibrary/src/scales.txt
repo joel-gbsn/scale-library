@@ -1,19 +1,19 @@
-major; ; 1, 2, 3, 4, 5, 6, 7, 8; false
-natural minor; ; 1, 2, b3, 4, 5, b6, b7, 8; false
-harmonic minor; ; 1, 2, b3, 4, 5, b6, 7, 8; false
-melodic minor; ascending; 1, 2, b3, 4, 5, 6, 7, 8; false
-melodic minor; descending; 1, 2, b3, 4, 5, b6, b7, 8; false
-major pentatonic; 1, 2, 3, 5, 6, 8; false
-minor pentatonic; 1, b3, 4, 5, b7, 8; false
-blues; ; 1, b3, 4, b5, 5, b7, 8; false
-chromatic; ; 1, #1, 2, #2, 3, 4, #4, 5, #5, 6, #6, 7, 8; true
-whole-tone; ; 1, 2, 3, b5, b6, b7, 8; true
-octatonic; tone-semitone; 1, 2, b3, 4, b5, b6, 6, 7, 8; true
-octatonic; semitone-tone; 1, b2, b3, 3, #4, 5, 6, b7, 8; true
-ionian; ; 1, 2, 3, 4, 5, 6, 7, 8; false
-dorian; ; 1, 2, b3, 4, 5, 6, b7, 8; false
-phrygian; ; 1, b2, b3, 4, 5, b6, b7, 8; false
-lydian; ; 1, 2, 3, #4, 5, 6, 7, 8; false
-mixolydian; ; 1, 2, 3, 4, 5, 6, b7, 8; false
-aeolian; ; 1, 2, b3, 4, 5, b6, b7, 8; false
-locrian; ; 1, b2, b3, 4, b5, b6, b7, 8; false
+major; 1, 2, 3, 4, 5, 6, 7, 8; false
+natural minor; 1, 2, b3, 4, 5, b6, b7, 8; false
+harmonic minor; 1, 2, b3, 4, 5, b6, 7, 8; false
+melodic minor (ascending); 1, 2, b3, 4, 5, 6, 7, 8; false
+melodic minor (descending); 1, 2, b3, 4, 5, b6, b7, 8; false
+major pentatonic;1, 2, 3, 5, 6, 8; false
+minor pentatonic;1, b3, 4, 5, b7, 8; false
+blues; 1, b3, 4, b5, 5, b7, 8; false
+chromatic; 1, #1, 2, #2, 3, 4, #4, 5, #5, 6, #6, 7, 8; true
+whole-tone; 1, 2, 3, b5, b6, b7, 8; true
+octatonic (tone-semitone); 1, 2, b3, 4, b5, b6, 6, 7, 8; true
+octatonic (semitone-tone); 1, b2, b3, 3, #4, 5, 6, b7, 8; true
+ionian; 1, 2, 3, 4, 5, 6, 7, 8; false
+dorian; 1, 2, b3, 4, 5, 6, b7, 8; false
+phrygian; 1, b2, b3, 4, 5, b6, b7, 8; false
+lydian; 1, 2, 3, #4, 5, 6, 7, 8; false
+mixolydian; 1, 2, 3, 4, 5, 6, b7, 8; false
+aeolian; 1, 2, b3, 4, 5, b6, b7, 8; false
+locrian; 1, b2, b3, 4, b5, b6, b7, 8; false

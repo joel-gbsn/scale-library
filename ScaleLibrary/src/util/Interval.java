@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 public class Interval {
-	private String symbol;
+	public String symbol;
 	private int size;
 	private int semitoneChange;
 	
@@ -128,5 +128,9 @@ public class Interval {
 		
 		// account for the quality of the interval
 		return semitones + interval.semitoneChange;
+	}
+	
+	public String toString() {
+		return symbol;
 	}
 }
