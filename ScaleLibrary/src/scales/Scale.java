@@ -11,80 +11,6 @@ import notes.*;
 public class Scale {
 	
 	/**
-	 * The root note of the scale.
-	 */
-    private Note root;
-	
-    /**
-     * The type/name of the scale (e.g. major, minor).
-     */
-	private String type;
-	
-	/**
-	 * The format of the scale (e.g. scale, arpeggio).
-	 */
-	private String format;
-	
-	/**
-	 * The sequence of intervals used to construct the scale.
-	 */
-	private String[] intervalPattern;
-	
-	/**
-	 * The list of notes in the scale.
-	 */
-	private ArrayList<Note> notes;
-	
-	/**
-	 * Creates a scale based on the given root note.
-	 * @param root the root note
-	 * @param format the format of the scale (e.g. scale, arpeggio)
-	 * @param type the type of the scale (e.g. major, minor)
-	 * @param intervals the sequence of intervals for each note in the scale
-	 */
-	public Scale(Note root, String format, String type, String[] intervals) {
-		this.root = root;
-		this.format = format;
-		this.type = type;
-		this.intervalPattern = intervals;
-		
-		// calculate all notes in the scale
-		this.createSequence();
-	}
-	
-	/**
-	 * Gets the root note.
-	 * @return the root note
-	 */
-	public Note getRoot() {
-		return root;
-	}
-	
-	/**
-	 * Gets the scale format.
-	 * @return the scale format
-	 */
-	public String getFormat() {
-		return format;
-	}
-	
-	/**
-	 * Gets the scale type.
-	 * @return the scale type
-	 */
-	public String getType() {
-		return type;
-	}
-	
-	/**
-	 * Gets the list of notes in the scale.
-	 * @return the list of notes
-	 */
-	public ArrayList<Note> getNotes() {
-		return notes;
-	}
-	
-	/**
 	 * Creates every note of the scale using the interval pattern.
 	 */
 	private void createSequence() {
@@ -180,28 +106,5 @@ public class Scale {
 				shuffleAccidentals(i);
 			}
 		}
-	}
-	
-	/**
-	 * Checks that each note of the scale has been successfully created and does not exceed
-	 * a double sharp or double flat
-	 * @return true if all notes are valid, or false if at least one note is null
-	 */
-	boolean isValid() {
-		for (Note note : getNotes()) {
-			if (note == null || Math.abs(note.getAccidental().getSemitones()) > 2) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * Returns a string containing the full name of the scale
-	 */
-	@Override
-	public String toString() {
-		return getRoot() + " " + getType() + " " + getFormat();
 	}
 }
