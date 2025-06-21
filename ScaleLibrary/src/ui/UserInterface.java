@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.List;
 import java.util.Scanner;
 
 import processor.Processor;
@@ -17,12 +18,34 @@ public class UserInterface {
 	public void start() {
 		System.out.println("Welcome to the Scale Library!\n");
 		
-		int option = -1;
-		while (option != 0) {
+		int option;
+		while (true) {
 			printMainMenu();
-			option = getOption(3);
+			option = getOption(4);
+			
+			if (option == 0) {
+				break;
+			} else if (option == 1) {
+				searchScales();
+			} else if (option == 2) {
+				
+			} else if (option == 3) {
+				
+			} else if (option == 4) {
+				
+			}
 		}
 		
+		System.out.println("Scale library closed.");
+		scanner.close();
+	}
+	
+	public void searchScales() {
+		printHeading("Search scales");
+		List<String> scales = processor.getScaleNames();
+		for (int i = 0; i < scales.size(); i++) {
+			System.out.println((i + 1) + ". " + "scales[i]");
+		}
 	}
 	
 	private String getUserInput() {
@@ -79,8 +102,9 @@ public class UserInterface {
 	private void printMainMenu() {
 		printHeading("Main Menu");
 		System.out.println("1. Search scales.");
-		System.out.println("2. Search arpeggios.");
-		System.out.println("3. Extra feature.");
+		System.out.println("2. Search custom scales.");
+		System.out.println("3. Create custom scale.");
+		System.out.println("4. Delete custom scale.");
 	}
 
 }

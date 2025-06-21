@@ -41,6 +41,14 @@ public class Scale {
 		return newScale;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public String getSubtype() {
+		return subtype;
+	}
+	
 	private List<Note> generateScale(String root) {
 		List<Note> scale = new ArrayList<>();
 		
