@@ -80,6 +80,7 @@ public class UserInterface {
 			input = getUserInput();
 			
 			if ("q".equals(input.toLowerCase())) {
+				System.out.println();
 				break;
 			}
 			
@@ -89,8 +90,15 @@ public class UserInterface {
 				continue;
 			}
 			
+			List<String> notes = processor.getNoteSequence(root);
+			if (notes == null) {
+				System.out.println("Scale not found.\n");
+				continue;
+			}
+			
+			System.out.println();
 			System.out.println(root + " " + scaleName + " scale:");
-			printSequence(processor.getNoteSequence(root));
+			printSequence(notes);
 		}
 	}
 	

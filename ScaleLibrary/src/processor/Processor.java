@@ -52,11 +52,16 @@ public class Processor {
 	}
 	
 	public List<String> getNoteSequence(Note root) {
-		List<String> notes = new ArrayList<>();
-		for (Note note : currScale.getScale(root)) {
-			notes.add(note.toString());
+		List<Note> notes = currScale.getScale(root);
+		if (notes == null) {
+			return null;
 		}
-		return notes;
+		
+		List<String> output = new ArrayList<>();
+		for (Note note : notes) {
+			output.add(note.toString());
+		}
+		return output;
 	}
 
 }

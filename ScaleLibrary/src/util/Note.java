@@ -88,8 +88,8 @@ public class Note {
 		// calculate the required semitone alteration
 		int newSemitones = semitoneChange + semitones;
 		
-		// don't calculate notes greater than 3 flats or 3 flats
-		if (Math.abs(newSemitones) > 3) {
+		// don't calculate notes greater than 2 flats or sharps
+		if (Math.abs(newSemitones) > 2) {
 			return null;
 		}
 
@@ -123,7 +123,14 @@ public class Note {
 		return newNote.changeAccidental(requiredSemitones - currentSemitones);
 	}
 	
+	@Override
 	public String toString() {
 		return letter + accidental;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		Note otherNote = (Note) o;
+		return this.toString().equals(otherNote.toString());
 	}
 }

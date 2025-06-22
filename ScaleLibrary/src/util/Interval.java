@@ -130,6 +130,7 @@ public class Interval {
 		return semitones + interval.semitoneChange;
 	}
 	
+	@Override
 	public String toString() {
 		return symbol;
 	}
