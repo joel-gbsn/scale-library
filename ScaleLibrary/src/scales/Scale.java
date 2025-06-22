@@ -25,29 +25,6 @@ public class Scale {
 	}
 	
 	/**
-	 * Prints the list of notes in the scale on a single line.
-	 */
-	public void printNotes() {
-		// prints the scale name
-		System.out.println(this);
-		
-		// print each note using a window of 5 spaces per note
-		for (Note note : notes.subList(0, notes.size() - 1)) {
-			System.out.print(note);
-			
-			// print blank spaces to pad
-			for (int i = 0; i < 5 - note.toString().length(); i++) {
-				System.out.print(" ");
-			}
-			
-		}
-		
-		// print the final note
-		System.out.println(notes.get(notes.size() - 1));
-		System.out.println();
-	}
-	
-	/**
 	 * Simplifies the note at the given index in the scale so that the least number of accidentals are used.
 	 * @param index the index of the note to change
 	 */

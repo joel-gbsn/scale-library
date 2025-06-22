@@ -27,9 +27,11 @@ public class UserInterface {
 			if (option == 0) {
 				break;
 			} else if (option == 1) {
+				processor.setBaseScales();
 				selectScale();
 			} else if (option == 2) {
-				
+				processor.setCustomScales();
+				selectScale();
 			} else if (option == 3) {
 				
 			} else if (option == 4) {
@@ -44,6 +46,12 @@ public class UserInterface {
 	public void selectScale() {
 		printHeading("Search scales");
 		List<String> scales = processor.getScaleNames();
+		
+		if (scales.isEmpty()) {
+			System.out.println("No scales available.");
+			return;
+		}
+		
 		for (int i = 0; i < scales.size(); i++) {
 			System.out.println((i + 1) + ". " + scales.get(i));
 		}
@@ -54,7 +62,7 @@ public class UserInterface {
 			return;
 		}
 		
-		processor.setCurrentScale(option - 1);
+		processor.setScale(option - 1);
 		searchScale();
 	}
 	
@@ -63,11 +71,12 @@ public class UserInterface {
 		
 		printHeading("Search " + scaleName + " scales");
 		
-		System.out.println("Interval pattern: " + processor.getIntervalSequence() + "\n");
+		System.out.println("Interval pattern:");
+		printSequence(processor.getIntervalSequence());
 		
 		String input = "";
 		while (true) {
-			System.out.println("Enter a root note, or 'q' to quit: ");
+			System.out.print("Enter a root note, or 'q' to quit: ");
 			input = getUserInput();
 			
 			if ("q".equals(input.toLowerCase())) {
@@ -81,9 +90,24 @@ public class UserInterface {
 			}
 			
 			System.out.println(root + " " + scaleName + " scale:");
-			System.out.println(processor.getNoteSequence(root.toString()));
+			printSequence(processor.getNoteSequence(root));
+		}
+	}
+	
+	private void printSequence(List<String> sequence) {
+		for (String element : sequence.subList(0, sequence.size() - 1)) {
+			System.out.print(element);
+			
+			// print blank spaces to pad
+			for (int i = 0; i < 5 - element.length(); i++) {
+				System.out.print(" ");
+			}
+			
 		}
 		
+		// print the final note
+		System.out.println(sequence.get(sequence.size() - 1));
+		System.out.println();
 	}
 	
 	public boolean isValidNote(String note) {

@@ -23,16 +23,14 @@ public class Scale {
 		this.simplify = simplify;
 	}
 	
-	public List<Note> getScale(String root) {
-		root = root.substring(0, 1).toUpperCase() + root.substring(1);
-		
-		if (scales.containsKey(root)) {
-			return scales.get(root);
+	public List<Note> getScale(Note root) {
+		if (scales.containsKey(root.toString())) {
+			return scales.get(root.toString());
 		}
 		
 		List<Note> newScale = generateScale(root);
 		if (newScale != null) {
-			scales.put(root, newScale);
+			scales.put(root.toString(), newScale);
 		}
 		return newScale;
 	}
@@ -41,7 +39,7 @@ public class Scale {
 		return name;
 	}
 	
-	public List<Note> generateScale(String root) {
+	public List<Note> generateScale(Note root) {
 		List<Note> scale = new ArrayList<>();
 		
 		return scale;

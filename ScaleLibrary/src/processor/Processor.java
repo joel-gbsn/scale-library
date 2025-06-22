@@ -1,7 +1,6 @@
 package processor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import datamanagement.Reader;
@@ -10,49 +9,54 @@ import util.Note;
 import util.Scale;
 
 public class Processor {
+	private List<Scale> baseScales;
+	private List<Scale> customScales;
 	
-	private Reader reader;
-	private List<Scale> scales;
-	
-	private Scale currentScale;
+	private List<Scale> currScaleSet;
+	private Scale currScale;
 	
 	public Processor(Reader reader) {
-		this.reader = reader;
-		this.scales = reader.readScales();
+		this.baseScales = reader.readScales();
+	}
+	
+	public void setBaseScales() {
+		currScaleSet = baseScales;
+	}
+	
+	public void setCustomScales() {
+		currScaleSet = customScales;
 	}
 	
 	public List<String> getScaleNames() {
 		List<String> scaleNames = new ArrayList<>();
-		for (Scale scale : scales) {
+		for (Scale scale : currScaleSet) {
 			scaleNames.add(scale.getName());
 		}
 		return scaleNames;
 	}
 	
-	public void setCurrentScale(int index) {
-		currentScale = scales.get(index);
+	public void setScale(int index) {
+		currScale = currScaleSet.get(index);
 	}
 	
 	public String getScaleName() {
-		return currentScale.getName();
+		return currScale.getName();
 	}
 	
-	public String getIntervalSequence() {
-		Interval[] intervals = currentScale.intervals;
-		String output = intervals[0].toString();
-		for (int i = 1; i < intervals.length; i++) {
-			output = output + ", " + intervals[i].toString();
+	public List<String> getIntervalSequence() {
+		List<String> intervals = new ArrayList<>();
+		for (Interval interval : currScale.intervals) {
+			intervals.add(interval.toString());
 		}
-		return output;
+		return intervals;
 	}
 	
-	public String getNoteSequence(String root) {
-		List<Note> notes = currentScale.getScale(root);
-		String output = notes.get(0).toString();
-		for (int i = 1; i < notes.size(); i++) {
-			output = output + ", " + notes.get(i).toString();
+	public List<String> getNoteSequence(Note root) {
+		List<String> notes = new ArrayList<>();
+		for (Note note : currScale.getScale(root)) {
+			notes.add(note.toString());
 		}
-		return output;
+		return notes;
 	}
 
 }
