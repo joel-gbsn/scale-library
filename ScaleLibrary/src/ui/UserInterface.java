@@ -71,8 +71,8 @@ public class UserInterface {
 		
 		printHeading("Search " + scaleName + " scales");
 		
-		System.out.println("Interval pattern:");
-		printSequence(processor.getIntervalSequence());
+		System.out.println("Interval pattern: " + String.join(", ", processor.getIntervalSequence()));
+		System.out.println();
 		
 		String input = "";
 		while (true) {
@@ -98,28 +98,24 @@ public class UserInterface {
 			
 			System.out.println();
 			System.out.println(root + " " + scaleName + " scale:");
-			printSequence(notes);
+			printScale(notes);
 		}
 	}
 	
-	private void printSequence(List<String> sequence) {
-		for (String element : sequence.subList(0, sequence.size() - 1)) {
-			System.out.print(element);
+	private void printScale(List<String> scale) {
+		for (String note : scale.subList(0, scale.size() - 1)) {
+			System.out.print(note);
 			
 			// print blank spaces to pad
-			for (int i = 0; i < 5 - element.length(); i++) {
+			for (int i = 0; i < 5 - note.length(); i++) {
 				System.out.print(" ");
 			}
 			
 		}
 		
 		// print the final note
-		System.out.println(sequence.get(sequence.size() - 1));
+		System.out.println(scale.get(scale.size() - 1));
 		System.out.println();
-	}
-	
-	public boolean isValidNote(String note) {
-		return null != Note.getNote(note);
 	}
 	
 	private String getUserInput() {
