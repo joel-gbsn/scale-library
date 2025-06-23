@@ -26,12 +26,15 @@ public class UserInterface {
 			
 			if (option == 0) {
 				break;
+				
 			} else if (option == 1) {
-				processor.setBaseScales();
+				processor.useScaleSet("base");
 				selectScale();
+				
 			} else if (option == 2) {
-				processor.setCustomScales();
+				processor.useScaleSet("custom");
 				selectScale();
+				
 			} else if (option == 3) {
 				
 			} else if (option == 4) {
@@ -44,11 +47,16 @@ public class UserInterface {
 	}
 	
 	public void selectScale() {
-		printHeading("Search scales");
+		if ("base".equals(processor.getCurrScaleSet())) {
+			printHeading("Search scales");
+		} else {
+			printHeading("Search custom scales");
+		}
+		
 		List<String> scales = processor.getScaleNames();
 		
 		if (scales.isEmpty()) {
-			System.out.println("No scales available.");
+			System.out.println("No scales found.\n");
 			return;
 		}
 		

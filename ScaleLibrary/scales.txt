@@ -6,7 +6,7 @@ melodic minor (descending); 1, 2, b3, 4, 5, b6, b7, 8; false
 major pentatonic;1, 2, 3, 5, 6, 8; false
 minor pentatonic;1, b3, 4, 5, b7, 8; false
 blues; 1, b3, 4, b5, 5, b7, 8; false
-chromatic; 1, #1, 2, #2, 3, 4, #4, 5, #5, 6, #6, 7, 8; true
+chromatic; 1, b2, 2, b3, 3, 4, b5, 5, b6, 6, b7, 7, 8; true
 whole-tone; 1, 2, 3, b5, b6, b7, 8; true
 octatonic (tone-semitone); 1, 2, b3, 4, b5, b6, 6, 7, 8; true
 octatonic (semitone-tone); 1, b2, b3, 3, #4, 5, 6, b7, 8; true

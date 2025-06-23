@@ -12,13 +12,23 @@ import util.Interval;
 
 public class Reader {
 	
-	private String filename;
+	private String baseFilename;
+	private String customFilename;
 	
-	public Reader(String filename) {
-		this.filename = filename;
+	public Reader(String baseFilename, String customFilename) {
+		this.baseFilename = baseFilename;
+		this.customFilename = customFilename;
 	}
 	
-	public List<Scale> readScales() {
+	public List<Scale> readBaseScales() {
+		return readScales(baseFilename);
+	}
+	
+	public List<Scale> readCustomScales() {
+		return readScales(customFilename);
+	}
+	
+	public List<Scale> readScales(String filename) {
 		// the list to store each line
 		List<Scale> scales = new ArrayList<>();
 		

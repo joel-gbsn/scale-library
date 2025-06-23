@@ -5,10 +5,13 @@ import ui.UserInterface;
 public class Main {
 	
 	public static void main(String[] args) {
-		String filename = "src/scales.txt";
-		Reader reader = new Reader(filename);
+		String baseFilename = "scales.txt";
+		String customFilename = "custom.txt";
+		
+		Reader reader = new Reader(baseFilename, customFilename);
 		Processor processor = new Processor(reader);
 		UserInterface ui = new UserInterface(processor);
+		
 		ui.start();
 	}
 }
