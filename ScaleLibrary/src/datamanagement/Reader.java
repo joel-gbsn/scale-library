@@ -51,9 +51,9 @@ public class Reader {
 				String[] intervalList = data[1].split(",\\s*");
 				boolean simplify = Boolean.valueOf(data[2].trim());
 				
-				Interval[] intervals = new Interval[intervalList.length];
-				for (int i = 0; i < intervalList.length; i++) {
-					intervals[i] = Interval.getInterval(intervalList[i]);
+				List<Interval> intervals = new ArrayList<>();
+				for (String interval : intervalList) {
+					intervals.add(Interval.getInterval(interval));
 				}
 				
 				scales.add(new Scale(name, intervals, simplify));

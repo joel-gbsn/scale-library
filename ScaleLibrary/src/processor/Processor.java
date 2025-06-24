@@ -30,6 +30,11 @@ public class Processor {
 		currScaleSet = scaleSet;
 	}
 	
+	public void addCustomScale(String name, List<Interval> intervals, boolean simplify) {
+		scaleSets.get("custom").add(new Scale(name, intervals, simplify));
+		//writeCustomScales("custom.txt");
+	}
+	
 	public List<String> getScaleNames() {
 		List<String> scaleNames = new ArrayList<>();
 		for (Scale scale : scaleSets.get(currScaleSet)) {

@@ -1,10 +1,18 @@
 package ui;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import processor.Processor;
+import scales.ScaleCollection;
+import util.Interval;
 import util.Note;
+import util.Scale;
 
 public class UserInterface {
 	
@@ -36,6 +44,7 @@ public class UserInterface {
 				selectScale();
 				
 			} else if (option == 3) {
+				createCustomScale();
 				
 			} else if (option == 4) {
 				
@@ -184,6 +193,162 @@ public class UserInterface {
 		System.out.println("3. Create custom scale.");
 		System.out.println("4. Delete custom scale.");
 		System.out.println();
+	}
+	
+	/**
+	 * Prompts user to create a custom scale to store in the library.
+	 */
+	private void createCustomScale() {
+		printHeading("Add custom scale");
+		
+		// prompt user for scale type
+		String input = "";
+		System.out.print("Enter the scale name (e.g. major), or 'q' to quit: ");
+		input = getUserInput();
+        String name = input.toLowerCase();
+        System.out.println();
+		
+        // check if user wants to quit
+		if ("q".equals(input)) {
+			return;
+		}
+		
+		// prompt user for interval sequence
+		List<Interval> intervals = new ArrayList<>();
+		while (true) {
+			System.out.print("Enter the interval sequence (e.g. 1, 2, b3, 5, 6, 8), or q to quit: ");
+			input = getUserInput();
+			
+			// check if user wants to quit
+			if ("q".equals(input.toLowerCase())) {
+				System.out.println();
+				return;
+			}
+			
+			// check if interval sequence is valid
+			String[] intervalList = input.split(",\\s*");
+			for (String interval : intervalList) {
+				intervals.add(Interval.getInterval(interval));
+			}
+			
+			if (intervals.contains(null)) {
+				System.out.println("Invalid interval list.\n");
+			}
+			break;
+		}
+		System.out.println();
+		
+		// prompt user for whether scale should be simplified using enharmonics
+		boolean simplify = false;
+		while (true) {
+			System.out.print("Should the scale be simplified using enharmonics (y/n)? Or type 'q' to quit. ");
+			input = getUserInput().toLowerCase();
+			
+			// check if user wants to quit
+			if ("q".equals(input)) {
+				System.out.println();
+				return;
+			}
+			
+			// check if user entered a valid response ('yes' or 'no')
+			if ("y".equals(input) || "yes".equals(input)) {
+				simplify = true;
+				break;
+			} else if ("n".equals(input) || "no".equals(input)) {
+				break;
+			} else {
+				System.out.println("Invalid option.\n");
+			}
+		}
+		
+		System.out.println();
+		
+		processor.addCustomScale(name, intervals, simplify);
+		System.out.println("Scale successfully added.\n");
+	}
+	
+	/**
+	 * Prompts the user to remove custom scales from the library.
+	 */
+	private void removeCustomScale() {
+		// get the list of current custom scales
+        ArrayList<ScaleCollection> scalesList = getLibrary().get("custom scales");
+		
+        // check if any custom scales were found
+		if (scalesList.isEmpty()) {
+			System.out.println("No custom scales found.\n");
+			return;
+		}
+		
+		// prompt user for custom scales to remove
+		int option = -1;
+		while (true) {
+			// check if there are any more custom scales to remove
+			if (scalesList.isEmpty()) {
+				System.out.println("All custom scales have now been removed.\n");
+				return;
+			}
+			
+			// display all custom scales
+			printHeading("Remove custom scales");
+			for (int i = 0; i < scalesList.size(); i++) {
+				System.out.println((i + 1) + ". " + scalesList.get(i));
+			}
+			
+			System.out.println();
+			
+			// prompt user to enter an option number
+			option = getOption(scalesList.size());
+			
+			// check if user wants to quit
+			if (option == 0) {
+				return;
+			}
+			
+			// remove the scale from the library
+			scalesList.remove(option - 1);
+			writeCustomScales("custom.txt");
+			System.out.println("Scale successfully removed.\n");
+		}
+	}
+	
+	/**
+	 * Writes the current list of custom scales to the given file.
+	 * @param filename the file to write to
+	 */
+	private void writeCustomScales(String filename) {
+		// get the current list of custom scales
+		ArrayList<ScaleCollection> scalesList = getLibrary().get("custom scales");
+		
+		// prepare the file for writing
+		File file = new File(filename);
+		FileWriter fw = null;
+		PrintWriter pw = null;
+		
+		try {
+			// create the file writers
+			fw = new FileWriter(file, false);
+			pw = new PrintWriter(fw);
+			
+			// write each custom scale to the file
+			for (ScaleCollection scales : scalesList) {
+				pw.println(scales.toFileLine());
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			
+		} finally {
+			try {
+				// close the file writers
+				pw.flush();
+				fw.close();
+				pw.close();
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

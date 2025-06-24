@@ -13,11 +13,11 @@ public class Scale {
 	// e.g. melodic minor
 	String name;
 	
-	public Interval[] intervals;
+	public List<Interval> intervals;
 	
 	boolean simplify;
 	
-	public Scale(String name, Interval[] intervals, boolean simplify) {
+	public Scale(String name, List<Interval> intervals, boolean simplify) {
 		this.name = name;
 		this.intervals = intervals;
 		this.simplify = simplify;
