@@ -35,6 +35,11 @@ public class Processor {
 		//writeCustomScales("custom.txt");
 	}
 	
+	public void deleteCustomScale(int index) {
+		scaleSets.get("custom").remove(index);
+		//writeCustomScales("custom.txt");
+	}
+	
 	public List<String> getScaleNames() {
 		List<String> scaleNames = new ArrayList<>();
 		for (Scale scale : scaleSets.get(currScaleSet)) {

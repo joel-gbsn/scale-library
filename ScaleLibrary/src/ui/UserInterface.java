@@ -47,7 +47,8 @@ public class UserInterface {
 				createCustomScale();
 				
 			} else if (option == 4) {
-				
+				processor.useScaleSet("custom");
+				removeCustomScale();
 			}
 		}
 		
@@ -56,29 +57,31 @@ public class UserInterface {
 	}
 	
 	public void selectScale() {
+		String scaleSetName;
 		if ("base".equals(processor.getCurrScaleSet())) {
-			printHeading("Search scales");
+			scaleSetName = "scales";
 		} else {
-			printHeading("Search custom scales");
+			scaleSetName = "custom scales";
 		}
-		
+
+		printHeading("Search " + scaleSetName);
+
 		List<String> scales = processor.getScaleNames();
-		
 		if (scales.isEmpty()) {
-			System.out.println("No scales found.\n");
+			System.out.println("No " + scaleSetName + " found.\n");
 			return;
 		}
-		
+
 		for (int i = 0; i < scales.size(); i++) {
 			System.out.println((i + 1) + ". " + scales.get(i));
 		}
-		
 		System.out.println();
+		
 		int option = getOption(scales.size());
 		if (option == 0) {
 			return;
 		}
-		
+
 		processor.setScale(option - 1);
 		searchScale();
 	}
@@ -153,8 +156,13 @@ public class UserInterface {
 		int option;
 		while (true) {
 			// prompt user to enter a number
-			System.out.print("Enter an option number, or 0 to quit: ");
+			System.out.print("Enter an option number, or 'q' to quit: ");
+			
 			String input = getUserInput();
+			if ("q".equals(input.toLowerCase())) {
+				System.out.println();
+				return 0;
+			}
 			
 			// cast input to an integer
 			try {
@@ -165,7 +173,7 @@ public class UserInterface {
 			}
 			
 			// check if input number is within the allowable range
-			if (option < 0 || option > numOptions) {
+			if (option < 1 || option > numOptions) {
 				System.out.println("Invalid option.\n");
 			} else {
 				System.out.println();
@@ -208,7 +216,6 @@ public class UserInterface {
         String name = input.toLowerCase();
         System.out.println();
 		
-        // check if user wants to quit
 		if ("q".equals(input)) {
 			return;
 		}
@@ -217,9 +224,8 @@ public class UserInterface {
 		List<Interval> intervals = new ArrayList<>();
 		while (true) {
 			System.out.print("Enter the interval sequence (e.g. 1, 2, b3, 5, 6, 8), or q to quit: ");
-			input = getUserInput();
 			
-			// check if user wants to quit
+			input = getUserInput();
 			if ("q".equals(input.toLowerCase())) {
 				System.out.println();
 				return;
@@ -242,9 +248,8 @@ public class UserInterface {
 		boolean simplify = false;
 		while (true) {
 			System.out.print("Should the scale be simplified using enharmonics (y/n)? Or type 'q' to quit. ");
-			input = getUserInput().toLowerCase();
 			
-			// check if user wants to quit
+			input = getUserInput().toLowerCase();
 			if ("q".equals(input)) {
 				System.out.println();
 				return;
@@ -271,45 +276,31 @@ public class UserInterface {
 	 * Prompts the user to remove custom scales from the library.
 	 */
 	private void removeCustomScale() {
-		// get the list of current custom scales
-        ArrayList<ScaleCollection> scalesList = getLibrary().get("custom scales");
+		printHeading("Delete custom scale");
 		
-        // check if any custom scales were found
-		if (scalesList.isEmpty()) {
+		// get the list of current custom scales
+		List<String> scales = processor.getScaleNames();
+
+		if (scales.isEmpty()) {
 			System.out.println("No custom scales found.\n");
 			return;
 		}
-		
-		// prompt user for custom scales to remove
-		int option = -1;
-		while (true) {
-			// check if there are any more custom scales to remove
-			if (scalesList.isEmpty()) {
-				System.out.println("All custom scales have now been removed.\n");
-				return;
-			}
-			
-			// display all custom scales
-			printHeading("Remove custom scales");
-			for (int i = 0; i < scalesList.size(); i++) {
-				System.out.println((i + 1) + ". " + scalesList.get(i));
-			}
-			
-			System.out.println();
-			
-			// prompt user to enter an option number
-			option = getOption(scalesList.size());
-			
-			// check if user wants to quit
-			if (option == 0) {
-				return;
-			}
-			
-			// remove the scale from the library
-			scalesList.remove(option - 1);
-			writeCustomScales("custom.txt");
-			System.out.println("Scale successfully removed.\n");
+
+		// display all custom scales
+		for (int i = 0; i < scales.size(); i++) {
+			System.out.println((i + 1) + ". " + scales.get(i));
 		}
+		System.out.println();
+
+		// prompt user to enter an option number
+		int option = getOption(scales.size());
+		if (option == 0) {
+			return;
+		}
+
+		// remove the scale from the library
+		processor.deleteCustomScale(option - 1);
+		System.out.println("Scale successfully deleted.\n");
 	}
 	
 	/**
