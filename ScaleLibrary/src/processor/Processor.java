@@ -6,20 +6,24 @@ import java.util.List;
 import java.util.Map;
 
 import datamanagement.Reader;
+import datamanagement.Writer;
 import util.Interval;
 import util.Note;
 import util.Scale;
 
 public class Processor {
 	
+	private Writer writer;
+	
 	private Map<String, List<Scale>> scaleSets = new HashMap<>();
 	
 	private String currScaleSet;
 	private Scale currScale;
 	
-	public Processor(Reader reader) {
+	public Processor(Reader reader, Writer writer) {
 		scaleSets.put("base", reader.readBaseScales());
 		scaleSets.put("custom", reader.readCustomScales());
+		this.writer = writer;
 	}
 	
 	public String getCurrScaleSet() {
@@ -32,12 +36,12 @@ public class Processor {
 	
 	public void addCustomScale(String name, List<Interval> intervals, boolean simplify) {
 		scaleSets.get("custom").add(new Scale(name, intervals, simplify));
-		//writeCustomScales("custom.txt");
+		writeCustomScales();
 	}
 	
 	public void deleteCustomScale(int index) {
 		scaleSets.get("custom").remove(index);
-		//writeCustomScales("custom.txt");
+		writeCustomScales();
 	}
 	
 	public List<String> getScaleNames() {
@@ -56,12 +60,8 @@ public class Processor {
 		return currScale.getName();
 	}
 	
-	public List<String> getIntervalSequence() {
-		List<String> intervals = new ArrayList<>();
-		for (Interval interval : currScale.intervals) {
-			intervals.add(interval.toString());
-		}
-		return intervals;
+	public String getIntervalString() {
+		return currScale.convertIntervalsToString();
 	}
 	
 	public List<String> getNoteSequence(Note root) {
@@ -75,6 +75,10 @@ public class Processor {
 			output.add(note.toString());
 		}
 		return output;
+	}
+	
+	public void writeCustomScales() {
+		writer.writeScales(scaleSets.get("custom"));
 	}
 
 }

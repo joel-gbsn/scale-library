@@ -116,4 +116,16 @@ public class Scale {
 			}
 		}
 	}
+	
+	public String convertIntervalsToString() {
+		List<String> intervalList = new ArrayList<>();
+		for (Interval interval : intervals) {
+			intervalList.add(interval.toString());
+		}
+		return String.join(", ", intervalList);
+	}
+	
+	public String toFileLine() {
+		return name + "; " + convertIntervalsToString() + "; " + simplify;
+	}
 }

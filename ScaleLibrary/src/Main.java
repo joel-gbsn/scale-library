@@ -1,4 +1,5 @@
 import datamanagement.Reader;
+import datamanagement.Writer;
 import processor.Processor;
 import ui.UserInterface;
 
@@ -9,7 +10,8 @@ public class Main {
 		String customFilename = "custom.txt";
 		
 		Reader reader = new Reader(baseFilename, customFilename);
-		Processor processor = new Processor(reader);
+		Writer writer = new Writer(customFilename);
+		Processor processor = new Processor(reader, writer);
 		UserInterface ui = new UserInterface(processor);
 		
 		ui.start();

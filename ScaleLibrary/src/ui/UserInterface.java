@@ -1,18 +1,12 @@
 package ui;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import processor.Processor;
-import scales.ScaleCollection;
 import util.Interval;
 import util.Note;
-import util.Scale;
 
 public class UserInterface {
 	
@@ -91,7 +85,7 @@ public class UserInterface {
 		
 		printHeading("Search " + scaleName + " scales");
 		
-		System.out.println("Interval pattern: " + String.join(", ", processor.getIntervalSequence()));
+		System.out.println("Interval pattern: " + processor.getIntervalString());
 		System.out.println();
 		
 		String input = "";
@@ -302,44 +296,4 @@ public class UserInterface {
 		processor.deleteCustomScale(option - 1);
 		System.out.println("Scale successfully deleted.\n");
 	}
-	
-	/**
-	 * Writes the current list of custom scales to the given file.
-	 * @param filename the file to write to
-	 */
-	private void writeCustomScales(String filename) {
-		// get the current list of custom scales
-		ArrayList<ScaleCollection> scalesList = getLibrary().get("custom scales");
-		
-		// prepare the file for writing
-		File file = new File(filename);
-		FileWriter fw = null;
-		PrintWriter pw = null;
-		
-		try {
-			// create the file writers
-			fw = new FileWriter(file, false);
-			pw = new PrintWriter(fw);
-			
-			// write each custom scale to the file
-			for (ScaleCollection scales : scalesList) {
-				pw.println(scales.toFileLine());
-			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-			
-		} finally {
-			try {
-				// close the file writers
-				pw.flush();
-				fw.close();
-				pw.close();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 }
