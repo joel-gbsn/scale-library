@@ -99,6 +99,9 @@ public class UserInterface {
 			if (root == null) {
 				System.out.println("Invalid note name.\n");
 				continue;
+			} else if (Math.abs(root.accidental.getSemitoneChange()) > 1) {
+				System.out.println("Scale not found.\n");
+				continue;
 			}
 			
 			List<String> notes = processor.createScale(root);

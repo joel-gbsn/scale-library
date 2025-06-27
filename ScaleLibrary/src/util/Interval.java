@@ -8,15 +8,15 @@ import java.util.regex.Matcher;
 
 public class Interval {
 	private int size;
-	private int semitoneChange;
+	private Alteration quality;
 	
 	private static Pattern pattern;
 	
 	private static Map<String, Interval> intervals = new HashMap<>();
 	
-	protected Interval(int size, int semitoneChange) {
+	protected Interval(int size, String quality) {
 		this.size = size;
-		this.semitoneChange = semitoneChange;
+		this.quality = Alteration.getAlteration(quality);
 	}
 	
 	public static Interval getInterval(String interval) {
@@ -47,22 +47,7 @@ public class Interval {
 			return null;
 		}
 		
-		return new Interval(size, calculateSemitones(matcher.group("quality")));
-	}
-	
-	protected static int calculateSemitones(String quality) {
-		switch(quality) {
-		case "#":
-			return 1;
-		case "x":
-			return 2;
-		case "b":
-			return -1;
-		case "bb":
-			return -2;
-		default:
-			return 0;
-		}
+		return new Interval(size, matcher.group("quality"));
 	}
 	
 	/**
@@ -90,7 +75,7 @@ public class Interval {
 		}
 		
 		// account for the accidental of the lower note
-		int start = i + firstNote.semitoneChange;
+		int start = i + firstNote.accidental.getSemitoneChange();
 		
 		// find the number of positions to the second note's letter name, wrapping around the array if necessary
 		while (!secondNote.letter.equals(chromaticNotes[i % 12])) {
@@ -98,7 +83,7 @@ public class Interval {
 		}
 		
 		// account for the accidental of the upper note
-		int end = i + secondNote.semitoneChange;
+		int end = i + secondNote.accidental.getSemitoneChange();
 		
 		// calculate the change in semitones
 		return end - start;
@@ -125,11 +110,11 @@ public class Interval {
 		}
 		
 		// account for the quality of the interval
-		return semitones + interval.semitoneChange;
+		return semitones + interval.quality.getSemitoneChange();
 	}
 	
 	@Override
 	public String toString() {
-		return symbol;
+		return quality + Integer.toString(size);
 	}
 }

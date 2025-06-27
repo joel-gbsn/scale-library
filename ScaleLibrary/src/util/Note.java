@@ -7,9 +7,8 @@ import java.util.regex.Pattern;
 
 public class Note {
 	
-	String letter;
-	String accidental;
-	int semitoneChange;
+	public String letter;
+	public Alteration accidental;
 	
 	public static final String[] LETTER_NAMES = {"A", "B", "C", "D", "E", "F", "G"};
 	
@@ -19,8 +18,7 @@ public class Note {
 	
 	protected Note(String letter, String accidental) {
 		this.letter = letter;
-		this.accidental = accidental;
-		this.semitoneChange = calculateSemitones(accidental);
+		this.accidental = Alteration.getAlteration(accidental);
 	}
 	
 	public static Note getNote(String note) {
@@ -49,8 +47,6 @@ public class Note {
 		return new Note(matcher.group("letter").toUpperCase(), matcher.group("accidental"));
 	}
 	
-
-	
 	/**
 	 * Returns the note with the same letter name obtained by adding the given number of semitones.
 	 * @param semitones the number of semitones to change the note by
@@ -58,14 +54,14 @@ public class Note {
 	 */
 	private Note changeAccidental(int semitones) {
 		// calculate the required semitone alteration
-		int newSemitones = semitoneChange + semitones;
+		int newSemitones = accidental.getSemitoneChange() + semitones;
 		
 		// don't calculate notes greater than 2 flats or sharps
 		if (Math.abs(newSemitones) > 2) {
 			return null;
 		}
 
-		return Note.getNote(letter + Note.calculateAccidental(newSemitones));
+		return Note.getNote(letter + Alteration.getAlteration(newSemitones));
 	}
 	
 	/**

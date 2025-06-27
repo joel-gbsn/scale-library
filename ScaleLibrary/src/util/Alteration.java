@@ -38,13 +38,6 @@ public class Alteration {
 		}
 		return alterations;
 	}
-	
-	/**
-	 * @return the symbol
-	 */
-	public String getSymbol() {
-		return symbol;
-	}
 
 	/**
 	 * @return the semitoneChange
