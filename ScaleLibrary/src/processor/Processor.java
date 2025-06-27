@@ -64,7 +64,7 @@ public class Processor {
 		return currScale.convertIntervalsToString();
 	}
 	
-	public List<String> getNoteSequence(Note root) {
+	public List<String> createScale(Note root) {
 		List<Note> notes = currScale.getScale(root);
 		if (notes == null) {
 			return null;

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 public class Interval {
-	public String symbol;
 	private int size;
 	private int semitoneChange;
 	
@@ -15,8 +14,7 @@ public class Interval {
 	
 	private static Map<String, Interval> intervals = new HashMap<>();
 	
-	protected Interval(String symbol, int size, int semitoneChange) {
-		this.symbol = symbol;
+	protected Interval(int size, int semitoneChange) {
 		this.size = size;
 		this.semitoneChange = semitoneChange;
 	}
@@ -49,7 +47,7 @@ public class Interval {
 			return null;
 		}
 		
-		return new Interval(interval, size, calculateSemitones(matcher.group("quality")));
+		return new Interval(size, calculateSemitones(matcher.group("quality")));
 	}
 	
 	protected static int calculateSemitones(String quality) {

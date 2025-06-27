@@ -66,10 +66,7 @@ public class UserInterface {
 			return;
 		}
 
-		for (int i = 0; i < scales.size(); i++) {
-			System.out.println((i + 1) + ". " + scales.get(i));
-		}
-		System.out.println();
+		printScaleNames(scales);
 		
 		int option = getOption(scales.size());
 		if (option == 0) {
@@ -77,10 +74,10 @@ public class UserInterface {
 		}
 
 		processor.setScale(option - 1);
-		searchScale();
+		viewScale();
 	}
 	
-	public void searchScale() {
+	public void viewScale() {
 		String scaleName = processor.getScaleName();
 		
 		printHeading("Search " + scaleName + " scales");
@@ -104,7 +101,7 @@ public class UserInterface {
 				continue;
 			}
 			
-			List<String> notes = processor.getNoteSequence(root);
+			List<String> notes = processor.createScale(root);
 			if (notes == null) {
 				System.out.println("Scale not found.\n");
 				continue;
@@ -279,12 +276,8 @@ public class UserInterface {
 			System.out.println("No custom scales found.\n");
 			return;
 		}
-
-		// display all custom scales
-		for (int i = 0; i < scales.size(); i++) {
-			System.out.println((i + 1) + ". " + scales.get(i));
-		}
-		System.out.println();
+		
+		printScaleNames(scales);
 
 		// prompt user to enter an option number
 		int option = getOption(scales.size());
@@ -295,5 +288,12 @@ public class UserInterface {
 		// remove the scale from the library
 		processor.deleteCustomScale(option - 1);
 		System.out.println("Scale successfully deleted.\n");
+	}
+	
+	public void printScaleNames(List<String> scales) {
+		for (int i = 0; i < scales.size(); i++) {
+			System.out.println((i + 1) + ". " + scales.get(i));
+		}
+		System.out.println();
 	}
 }

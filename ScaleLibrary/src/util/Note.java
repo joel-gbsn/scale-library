@@ -49,35 +49,7 @@ public class Note {
 		return new Note(matcher.group("letter").toUpperCase(), matcher.group("accidental"));
 	}
 	
-	protected static int calculateSemitones(String accidental) {
-		switch(accidental) {
-		case "#":
-			return 1;
-		case "x":
-			return 2;
-		case "b":
-			return -1;
-		case "bb":
-			return -2;
-		default:
-			return 0;
-		}
-	}
-	
-	protected static String calculateAccidental(int semitones) {
-		switch(semitones) {
-		case 1:
-			return "#";
-		case 2:
-			return "x";
-		case -1:
-			return "b";
-		case -2:
-			return "bb";
-		default:
-			return "";
-		}
-	}
+
 	
 	/**
 	 * Returns the note with the same letter name obtained by adding the given number of semitones.
