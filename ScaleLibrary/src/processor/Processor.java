@@ -41,7 +41,7 @@ public class Processor {
 		return scaleNames;
 	}
 	
-	public String getIntervalString(String scaleSet, int index) {
+	public String getIntervals(String scaleSet, int index) {
 		return getScale(scaleSet, index).getIntervalString();
 	}
 	

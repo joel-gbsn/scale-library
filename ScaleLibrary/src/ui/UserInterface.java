@@ -133,9 +133,7 @@ public class UserInterface {
 		}
 		
 		printHeading("Search " + scales.get(index) + " scales");
-		
-		System.out.println("Interval pattern: ");
-		// get interval pattern
+		System.out.println("Interval pattern: " + processor.getIntervals(scaleSet, index) + "\n");
 		
 		// display the scale of the root note entered by the user
 		while (true) {
@@ -154,7 +152,6 @@ public class UserInterface {
 			System.out.println(root + " " + scales.get(index) + " scale:");
 			printScale(notes);
 		}
-		
 	}
 	
 	/**
@@ -220,8 +217,6 @@ public class UserInterface {
 		// print the final note
 		System.out.println(scale.get(scale.size() - 1) + "\n");
 	}
-	
-
 	
 	/**
 	 * Prompts user to create a custom scale to store in the library.
@@ -300,22 +295,19 @@ public class UserInterface {
 		
 		// get the list of current custom scales
 		List<String> scales = processor.getScaleNames("custom");
-
 		if (scales.isEmpty()) {
-			System.out.println("No custom scales found.\n");
-			return;
-		}
-		
-		printScaleNames(scales);
-
-		// prompt user to enter an option number
-		int option = getOption(scales.size());
-		if (option == 0) {
+			System.out.println("No scales found.\n");
 			return;
 		}
 
-		// remove the scale from the library
-		processor.deleteCustomScale(option - 1);
+		// find which scale the user wants to search
+		int index = chooseScale(scales);
+		if (index == -1) {
+			return;
+		}
+
+		// remove the scale
+		processor.deleteCustomScale(index);
 		System.out.println("Scale successfully deleted.\n");
 	}
 	
