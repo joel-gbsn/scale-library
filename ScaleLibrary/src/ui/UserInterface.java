@@ -133,23 +133,26 @@ public class UserInterface {
 		}
 		
 		printHeading("Search " + scales.get(index) + " scales");
+		
+		// display the interval pattern for the selected scale
 		System.out.println("Interval pattern: " + processor.getIntervals(scaleSet, index) + "\n");
 		
-		// display the scale of the root note entered by the user
 		while (true) {
+			// prompt user for a root note
 			Note root = chooseRoot();
 			if (root == null) {
 				return;
 			}
 			
+			// create the scale using the root note
 			List<String> notes = processor.getScaleNotes(scaleSet, index, root);
 			if (notes == null) {
 				System.out.println("Scale not found.\n");
 				continue;
 			}
 			
-			System.out.println();
-			System.out.println(root + " " + scales.get(index) + " scale:");
+			// display the notes of the scale
+			System.out.println("\n" + root + " " + scales.get(index) + " scale:");
 			printScale(notes);
 		}
 	}
@@ -178,11 +181,9 @@ public class UserInterface {
 			} else if (Math.abs(root.accidental.getSemitoneChange()) > 1) {
 				System.out.println("Invalid root (maximum one sharp or flat only).\n");
 			} else {
-				break;
+				return root;
 			}
 		}
-		
-		return root;
 	}
 	
 	/**
@@ -224,26 +225,57 @@ public class UserInterface {
 	private void createCustomScale() {
 		printHeading("Add custom scale");
 		
-		// prompt user for scale type
-		String input = "";
-		System.out.print("Enter the scale name (e.g. major), or 'q' to quit: ");
-		input = getUserInput();
-        String name = input.toLowerCase();
-        System.out.println();
-		
-		if ("q".equals(input)) {
+		// prompt user for scale name
+		String name = chooseScaleName();
+		if (name == null) {
 			return;
 		}
 		
 		// prompt user for interval sequence
+		List<Interval> intervals = chooseIntervals();
+		if (intervals == null) {
+			return;
+		}
+		
+		// prompt user for whether scale should be simplified using enharmonics
+		Boolean simplify = chooseSimplify();
+		if (simplify == null) {
+			return;
+		}
+		
+		// create the new scale using the user's parameters
+		processor.addCustomScale(name, intervals, simplify);
+		System.out.println("\nScale successfully added.\n");
+	}
+	
+	/**
+	 * Prompts the user to enter a scale name.
+	 * @return the scale name, or null if user selected to quit
+	 */
+	private String chooseScaleName() {
+		System.out.print("Enter the scale name (e.g. major), or 'q' to quit: ");
+		String input = getUserInput().toLowerCase();
+		System.out.println();
+		
+		if ("q".equals(input)) {
+			return null;
+		}
+        return input;
+	}
+	
+	/**
+	 * Prompts the user to enter a list of intervals.
+	 * @return the interval list, or null is user selected to quit
+	 */
+	private List<Interval> chooseIntervals() {
 		List<Interval> intervals = new ArrayList<>();
 		while (true) {
 			System.out.print("Enter the interval sequence (e.g. 1, 2, b3, 5, 6, 8), or q to quit: ");
 			
-			input = getUserInput();
+			String input = getUserInput();
 			if ("q".equals(input.toLowerCase())) {
 				System.out.println();
-				return;
+				return null;
 			}
 			
 			// check if interval sequence is valid
@@ -254,37 +286,38 @@ public class UserInterface {
 			
 			if (intervals.contains(null)) {
 				System.out.println("Invalid interval list.\n");
+				intervals.clear();
+				continue;
 			}
-			break;
+			
+			System.out.println();
+			return intervals;
 		}
-		System.out.println();
-		
-		// prompt user for whether scale should be simplified using enharmonics
-		boolean simplify = false;
+	}
+	
+	/**
+	 * Prompts user to enter whether scale should be simplified.
+	 * @return true if scale should be simplified, false if not, or null if user selected to quit
+	 */
+	private Boolean chooseSimplify() {
 		while (true) {
 			System.out.print("Should the scale be simplified using enharmonics (y/n)? Or type 'q' to quit. ");
 			
-			input = getUserInput().toLowerCase();
+			String input = getUserInput().toLowerCase();
 			if ("q".equals(input)) {
 				System.out.println();
-				return;
+				return null;
 			}
 			
 			// check if user entered a valid response ('yes' or 'no')
 			if ("y".equals(input) || "yes".equals(input)) {
-				simplify = true;
-				break;
+				return true;
 			} else if ("n".equals(input) || "no".equals(input)) {
-				break;
+				return false;
 			} else {
 				System.out.println("Invalid option.\n");
 			}
 		}
-		
-		System.out.println();
-		
-		processor.addCustomScale(name, intervals, simplify);
-		System.out.println("Scale successfully added.\n");
 	}
 	
 	/**
