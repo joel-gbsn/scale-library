@@ -117,7 +117,7 @@ public class Scale {
 		}
 	}
 	
-	public String convertIntervalsToString() {
+	public String getIntervalString() {
 		List<String> intervalList = new ArrayList<>();
 		for (Interval interval : intervals) {
 			intervalList.add(interval.toString());
@@ -126,6 +126,6 @@ public class Scale {
 	}
 	
 	public String toFileLine() {
-		return name + "; " + convertIntervalsToString() + "; " + simplify;
+		return name + "; " + getIntervalString() + "; " + simplify;
 	}
 }

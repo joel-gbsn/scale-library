@@ -8,9 +8,20 @@ import processor.Processor;
 import util.Interval;
 import util.Note;
 
+/**
+ * The user interface for interacting with the Scale Library.
+ * @author Joel Gibson
+ */
 public class UserInterface {
 	
+	/**
+	 * The processor for processing and retrieving data to display.
+	 */
 	private Processor processor;
+	
+	/**
+	 * The scanner for getting user input.
+	 */
 	private Scanner scanner;
 	
 	public UserInterface(Processor processor) {
@@ -18,120 +29,10 @@ public class UserInterface {
 		this.scanner = new Scanner(System.in);
 	}
 	
-	public void start() {
-		System.out.println("Welcome to the Scale Library!\n");
-		
-		int option;
-		while (true) {
-			printMainMenu();
-			option = getOption(4);
-			
-			if (option == 0) {
-				break;
-				
-			} else if (option == 1) {
-				processor.useScaleSet("base");
-				selectScale();
-				
-			} else if (option == 2) {
-				processor.useScaleSet("custom");
-				selectScale();
-				
-			} else if (option == 3) {
-				createCustomScale();
-				
-			} else if (option == 4) {
-				processor.useScaleSet("custom");
-				removeCustomScale();
-			}
-		}
-		
-		System.out.println("Scale library closed.");
-		scanner.close();
-	}
-	
-	public void selectScale() {
-		String scaleSetName;
-		if ("base".equals(processor.getCurrScaleSet())) {
-			scaleSetName = "scales";
-		} else {
-			scaleSetName = "custom scales";
-		}
-
-		printHeading("Search " + scaleSetName);
-
-		List<String> scales = processor.getScaleNames();
-		if (scales.isEmpty()) {
-			System.out.println("No " + scaleSetName + " found.\n");
-			return;
-		}
-
-		printScaleNames(scales);
-		
-		int option = getOption(scales.size());
-		if (option == 0) {
-			return;
-		}
-
-		processor.setScale(option - 1);
-		viewScale();
-	}
-	
-	public void viewScale() {
-		String scaleName = processor.getScaleName();
-		
-		printHeading("Search " + scaleName + " scales");
-		
-		System.out.println("Interval pattern: " + processor.getIntervalString());
-		System.out.println();
-		
-		String input = "";
-		while (true) {
-			System.out.print("Enter a root note, or 'q' to quit: ");
-			input = getUserInput();
-			
-			if ("q".equals(input.toLowerCase())) {
-				System.out.println();
-				break;
-			}
-			
-			Note root = Note.getNote(input);
-			if (root == null) {
-				System.out.println("Invalid note name.\n");
-				continue;
-			} else if (Math.abs(root.accidental.getSemitoneChange()) > 1) {
-				System.out.println("Scale not found.\n");
-				continue;
-			}
-			
-			List<String> notes = processor.createScale(root);
-			if (notes == null) {
-				System.out.println("Scale not found.\n");
-				continue;
-			}
-			
-			System.out.println();
-			System.out.println(root + " " + scaleName + " scale:");
-			printScale(notes);
-		}
-	}
-	
-	private void printScale(List<String> scale) {
-		for (String note : scale.subList(0, scale.size() - 1)) {
-			System.out.print(note);
-			
-			// print blank spaces to pad
-			for (int i = 0; i < 5 - note.length(); i++) {
-				System.out.print(" ");
-			}
-			
-		}
-		
-		// print the final note
-		System.out.println(scale.get(scale.size() - 1));
-		System.out.println();
-	}
-	
+	/**
+	 * Prompts the user to enter some non-empty text.
+	 * @return the user's input, trimmed of whitespace
+	 */
 	private String getUserInput() {
 		String input = "";
 		while (input.isEmpty()) {
@@ -141,9 +42,9 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Prompts the user to enter an option number up to the given number.
-	 * @param numOptions the maximum number accepted as input
-	 * @return the user's input cast to an integer
+	 * Prompts the user to enter an option number between 1 and the given number.
+	 * @param numOptions the maximum number accepted as user input
+	 * @return the user's input cast to an integer, or 0 if they selected to quit
 	 */
 	private int getOption(int numOptions) {
 		// keep prompting user until they enter an option number within range
@@ -178,24 +79,149 @@ public class UserInterface {
 		return option;
 	}
 	
-	private void printHeading(String heading) {
-		String bar = "";
-		for (int i = 0; i < heading.length() + 4; i++) {
-			bar = bar + "-";
+	/**
+	 * The entry point for the user interface.
+	 */
+	public void start() {
+		System.out.println("Welcome to the Scale Library!\n");
+		
+		// execute the main menu actions requested by the user
+		int option;
+		while (true) {
+			printMainMenu();
+			option = getOption(4);
+			
+			if (option == 0) {
+				break;
+			} else if (option == 1) {
+				searchScales("base");
+			} else if (option == 2) {
+				searchScales("custom");
+			} else if (option == 3) {
+				createCustomScale();
+			} else if (option == 4) {
+				removeCustomScale();
+			}
 		}
-		System.out.println(bar);
-		System.out.println("  " + heading);
-		System.out.println(bar);
+		
+		System.out.println("Scale library closed.");
+		scanner.close();
 	}
 	
-	private void printMainMenu() {
-		printHeading("Main Menu");
-		System.out.println("1. Search scales.");
-		System.out.println("2. Search custom scales.");
-		System.out.println("3. Create custom scale.");
-		System.out.println("4. Delete custom scale.");
-		System.out.println();
+	/**
+	 * Displays the scales selected by the user from the given scale set
+	 * @param scaleSet the scale set to search (either "base" or "custom")
+	 */
+	public void searchScales(String scaleSet) {
+		if ("base".equals(scaleSet)) {
+			printHeading("Search scales");
+		} else {
+			printHeading("Search custom scales");
+		}
+		
+		// get the list of scale names
+		List<String> scales = processor.getScaleNames(scaleSet);
+		if (scales.isEmpty()) {
+			System.out.println("No scales found.\n");
+			return;
+		}
+		
+		// find which scale the user wants to search
+		int index = chooseScale(scales);
+		if (index == -1) {
+			return;
+		}
+		
+		printHeading("Search " + scales.get(index) + " scales");
+		
+		System.out.println("Interval pattern: ");
+		// get interval pattern
+		
+		// display the scale of the root note entered by the user
+		while (true) {
+			Note root = chooseRoot();
+			if (root == null) {
+				return;
+			}
+			
+			List<String> notes = processor.getScaleNotes(scaleSet, index, root);
+			if (notes == null) {
+				System.out.println("Scale not found.\n");
+				continue;
+			}
+			
+			System.out.println();
+			System.out.println(root + " " + scales.get(index) + " scale:");
+			printScale(notes);
+		}
+		
 	}
+	
+	/**
+	 * Prompts the user to enter a root note.
+	 * @return the note entered by the user, or null if they selected to quit
+	 */
+	public Note chooseRoot() {
+		String input = "";
+		Note root;
+		while (true) {
+			System.out.print("Enter a root note, or 'q' to quit: ");
+			input = getUserInput();
+			
+			if ("q".equals(input.toLowerCase())) {
+				System.out.println();
+				return null;
+			}
+			
+			root = Note.getNote(input);
+			
+			// check if note is valid
+			if (root == null) {
+				System.out.println("Invalid note name.\n");
+			} else if (Math.abs(root.accidental.getSemitoneChange()) > 1) {
+				System.out.println("Invalid root (maximum one sharp or flat only).\n");
+			} else {
+				break;
+			}
+		}
+		
+		return root;
+	}
+	
+	/**
+	 * Prompts the user to select a scale from the given list of scale names.
+	 * @param scales the list of scale names
+	 * @return the index of the selected scale, or -1 if user selected to quit
+	 */
+	public int chooseScale(List<String> scales) {
+		// print each scale name as a numbered list
+		for (int i = 0; i < scales.size(); i++) {
+			System.out.println((i + 1) + ". " + scales.get(i));
+		}
+		System.out.println();
+		
+		return getOption(scales.size()) - 1;
+	}
+	
+	/**
+	 * Prints the given list of notes.
+	 * @param scale the list of notes
+	 */
+	private void printScale(List<String> scale) {
+		for (String note : scale.subList(0, scale.size() - 1)) {
+			System.out.print(note);
+			
+			// pad to 5 spaces
+			for (int i = 0; i < 5 - note.length(); i++) {
+				System.out.print(" ");
+			}
+		}
+		
+		// print the final note
+		System.out.println(scale.get(scale.size() - 1) + "\n");
+	}
+	
+
 	
 	/**
 	 * Prompts user to create a custom scale to store in the library.
@@ -273,7 +299,7 @@ public class UserInterface {
 		printHeading("Delete custom scale");
 		
 		// get the list of current custom scales
-		List<String> scales = processor.getScaleNames();
+		List<String> scales = processor.getScaleNames("custom");
 
 		if (scales.isEmpty()) {
 			System.out.println("No custom scales found.\n");
@@ -293,10 +319,30 @@ public class UserInterface {
 		System.out.println("Scale successfully deleted.\n");
 	}
 	
-	public void printScaleNames(List<String> scales) {
-		for (int i = 0; i < scales.size(); i++) {
-			System.out.println((i + 1) + ". " + scales.get(i));
+	/**
+	 * Displays the given text as a heading.
+	 * @param heading the heading to print
+	 */
+	private void printHeading(String heading) {
+		// get the correct length heading bar
+		String bar = "";
+		for (int i = 0; i < heading.length() + 4; i++) {
+			bar = bar + "-";
 		}
-		System.out.println();
+		
+		System.out.println(bar);
+		System.out.println("  " + heading);
+		System.out.println(bar);
+	}
+	
+	/**
+	 * Displays the main menu to the user.
+	 */
+	private void printMainMenu() {
+		printHeading("Main Menu");
+		System.out.println("1. Search scales.");
+		System.out.println("2. Search custom scales.");
+		System.out.println("3. Create custom scale.");
+		System.out.println("4. Delete custom scale.\n");
 	}
 }

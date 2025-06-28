@@ -17,21 +17,10 @@ public class Processor {
 	
 	private Map<String, List<Scale>> scaleSets = new HashMap<>();
 	
-	private String currScaleSet;
-	private Scale currScale;
-	
 	public Processor(Reader reader, Writer writer) {
 		scaleSets.put("base", reader.readBaseScales());
 		scaleSets.put("custom", reader.readCustomScales());
 		this.writer = writer;
-	}
-	
-	public String getCurrScaleSet() {
-		return currScaleSet;
-	}
-	
-	public void useScaleSet(String scaleSet) {
-		currScaleSet = scaleSet;
 	}
 	
 	public void addCustomScale(String name, List<Interval> intervals, boolean simplify) {
@@ -44,28 +33,21 @@ public class Processor {
 		writeCustomScales();
 	}
 	
-	public List<String> getScaleNames() {
+	public List<String> getScaleNames(String scaleSet) {
 		List<String> scaleNames = new ArrayList<>();
-		for (Scale scale : scaleSets.get(currScaleSet)) {
+		for (Scale scale : scaleSets.get(scaleSet)) {
 			scaleNames.add(scale.getName());
 		}
 		return scaleNames;
 	}
 	
-	public void setScale(int index) {
-		currScale = scaleSets.get(currScaleSet).get(index);
+	public String getIntervalString(String scaleSet, int index) {
+		return getScale(scaleSet, index).getIntervalString();
 	}
 	
-	public String getScaleName() {
-		return currScale.getName();
-	}
-	
-	public String getIntervalString() {
-		return currScale.convertIntervalsToString();
-	}
-	
-	public List<String> createScale(Note root) {
-		List<Note> notes = currScale.getScale(root);
+	public List<String> getScaleNotes(String scaleSet, int index, Note root) {
+		Scale scale = getScale(scaleSet, index);
+		List<Note> notes = scale.getScale(root);
 		if (notes == null) {
 			return null;
 		}
@@ -79,6 +61,10 @@ public class Processor {
 	
 	public void writeCustomScales() {
 		writer.writeScales(scaleSets.get("custom"));
+	}
+	
+	private Scale getScale(String scaleSet, int index) {
+		return scaleSets.get(scaleSet).get(index);
 	}
 
 }
