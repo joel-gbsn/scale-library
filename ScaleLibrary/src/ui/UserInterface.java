@@ -135,7 +135,7 @@ public class UserInterface {
 		printHeading("Search " + scales.get(index) + " scales");
 		
 		// display the interval pattern for the selected scale
-		System.out.println("Interval pattern: " + processor.getIntervals(scaleSet, index) + "\n");
+		printIntervals(processor.getIntervalList(scaleSet, index));
 		
 		while (true) {
 			// prompt user for a root note
@@ -155,6 +155,14 @@ public class UserInterface {
 			System.out.println("\n" + root + " " + scales.get(index) + " scale:");
 			printScale(notes);
 		}
+	}
+	
+	/**
+	 * Prints the given list of interval names.
+	 * @param intervals the interval names
+	 */
+	public void printIntervals(List<String> intervals) {
+		System.out.println("Interval pattern: " + String.join(", ", intervals) + "\n");
 	}
 	
 	/**

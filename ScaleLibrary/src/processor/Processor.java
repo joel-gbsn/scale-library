@@ -41,10 +41,6 @@ public class Processor {
 		return scaleNames;
 	}
 	
-	public String getIntervals(String scaleSet, int index) {
-		return getScale(scaleSet, index).getIntervalString();
-	}
-	
 	public List<String> getScaleNotes(String scaleSet, int index, Note root) {
 		Scale scale = getScale(scaleSet, index);
 		List<Note> notes = scale.getScale(root);
@@ -66,5 +62,8 @@ public class Processor {
 	private Scale getScale(String scaleSet, int index) {
 		return scaleSets.get(scaleSet).get(index);
 	}
-
+	
+	public List<String> getIntervalList(String scaleSet, int index) {
+		return getScale(scaleSet, index).getIntervalNames();
+	}
 }

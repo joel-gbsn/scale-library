@@ -34,7 +34,7 @@ public class Writer {
 			
 			// write each custom scale to the file
 			for (Scale scale : scales) {
-				pw.println(scale.toFileLine());
+				pw.println(toFileLine(scale));
 			}
 			
 		} catch (IOException e) {
@@ -51,5 +51,9 @@ public class Writer {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	protected String toFileLine(Scale scale) {
+		return scale.getName() + "; " + String.join(", ", scale.getIntervalNames()) + "; " + scale.isSimplified();
 	}
 }
