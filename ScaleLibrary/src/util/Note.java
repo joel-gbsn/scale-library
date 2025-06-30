@@ -78,7 +78,7 @@ public class Note {
 		String letterName = null;
 		for (int i = 0; i < LETTER_NAMES.length; i++) {
 			if (letter.equals(LETTER_NAMES[i])) {
-				letterName = LETTER_NAMES[(i + interval.simplifyNumber() - 1) % LETTER_NAMES.length];
+				letterName = LETTER_NAMES[(i + interval.simplifySize() - 1) % LETTER_NAMES.length];
 				break;
 			}
 		}
