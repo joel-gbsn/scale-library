@@ -186,7 +186,7 @@ public class UserInterface {
 			// check if note is valid
 			if (root == null) {
 				System.out.println("Invalid note name.\n");
-			} else if (Math.abs(root.accidental.getSemitoneChange()) > 1) {
+			} else if (Math.abs(root.getSemitoneChange()) > 1) {
 				System.out.println("Invalid root (maximum one sharp or flat only).\n");
 			} else {
 				return root;

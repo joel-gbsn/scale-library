@@ -36,12 +36,12 @@ public class Interval {
 	private static String[] tonePattern = {"T", "T", "S", "T", "T", "T", "S"};
 	
 	/**
-	 * The sequence of chromatic note names.
+	 * The sequence of all chromatic note names.
 	 */
 	private static String[] chromaticNotes = {"C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"};
 	
 	/**
-	 * Creates a new Interval of the given size and quality.
+	 * Creates a new Interval with the given size and quality.
 	 * @param size the interval number
 	 * @param quality the interval quality (e.g. '#' for augmented)
 	 */
@@ -53,7 +53,7 @@ public class Interval {
 	/**
 	 * Static factory method for creating/retrieving the Interval object associated with the given name.
 	 * @param intervalName the name of the interval
-	 * @return the Interval object
+	 * @return the Interval object, or null if interval name was invalid
 	 */
 	public static Interval getInterval(String intervalName) {
 		// get interval if it has already been created
@@ -71,17 +71,17 @@ public class Interval {
 	
 	/**
 	 * Creates an Interval object using the given interval name.
-	 * @param interval the interval name
+	 * @param intervalName the interval name
 	 * @return the Interval object, or null if interval name was not valid
 	 */
-	protected static Interval parseInterval(String interval) {
+	protected static Interval parseInterval(String intervalName) {
 		// create regex pattern for extracting the interval components
 		if (pattern == null) {
 			String regex = "^(?<quality>[#bx]?|bb)(?<size>[0-9]{1,2})$";
 			pattern = Pattern.compile(regex);
 		}
 		
-		Matcher matcher = pattern.matcher(interval);
+		Matcher matcher = pattern.matcher(intervalName);
 		if (!matcher.matches()) {
 			return null;
 		}
@@ -93,6 +93,13 @@ public class Interval {
 		}
 		
 		return new Interval(size, matcher.group("quality"));
+	}
+	
+	/**
+	 * @return the number of semitones the quality changes the interval by.
+	 */
+	public int getSemitoneChange() {
+		return quality.getSemitoneChange();
 	}
 	
 	/**
@@ -112,21 +119,21 @@ public class Interval {
 	public static int countSemitones(Note firstNote, Note secondNote) {
 		// find the index of the lower note's letter name in the chromatic notes array
 		int i = 0;
-		while (!firstNote.letter.equals(chromaticNotes[i])) {
+		while (!firstNote.getLetter().equals(chromaticNotes[i])) {
 			i++;
 		}
 		
 		// account for the accidental of the lower note
-		int start = i + firstNote.accidental.getSemitoneChange();
+		int start = i + firstNote.getSemitoneChange();
 		
 		// find the number of positions to the second note's letter name in the chromatic notes array,
 		// wrapping around the array if necessary
-		while (!secondNote.letter.equals(chromaticNotes[i % 12])) {
+		while (!secondNote.getLetter().equals(chromaticNotes[i % 12])) {
 			i++;
 		}
 		
 		// account for the accidental of the upper note
-		int end = i + secondNote.accidental.getSemitoneChange();
+		int end = i + secondNote.getSemitoneChange();
 		
 		// calculate the change in semitones
 		return end - start;
@@ -150,7 +157,7 @@ public class Interval {
 		}
 		
 		// account for the quality of the interval
-		return semitones + interval.quality.getSemitoneChange();
+		return semitones + interval.getSemitoneChange();
 	}
 	
 	@Override

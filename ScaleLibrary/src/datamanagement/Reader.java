@@ -49,14 +49,14 @@ public class Reader {
 				
 				String name = data[0].toLowerCase().trim();
 				String[] intervalList = data[1].split(",\\s*");
-				boolean simplify = Boolean.valueOf(data[2].trim());
+				boolean simplified = Boolean.valueOf(data[2].trim());
 				
 				List<Interval> intervals = new ArrayList<>();
 				for (String interval : intervalList) {
 					intervals.add(Interval.getInterval(interval));
 				}
 				
-				scales.add(new Scale(name, intervals, simplify));
+				scales.add(new Scale(name, intervals, simplified));
 			}
 			
 		} catch (IOException e) {
@@ -75,5 +75,4 @@ public class Reader {
 		
 		return scales;
 	}
-
 }

@@ -143,7 +143,7 @@ public class Scale {
 	protected void simplifyAccidentals(List<Note> notes, Note root, int index) {
 		// find the note at the required index and its current semitone change
 		Note note = notes.get(index);
-		int semitones = note.accidental.getSemitoneChange();
+		int semitones = note.getSemitoneChange();
 
 		// check if the enharhomic note above or below the current note has a smaller semitone change
 		String[] intervals = {"#7", "bb2"};
@@ -156,7 +156,7 @@ public class Scale {
 			}
 
 			// use the note with the smaller semitone alteration
-			int testSemitones = testNote.accidental.getSemitoneChange();
+			int testSemitones = testNote.getSemitoneChange();
 			if (Math.abs(testSemitones) < Math.abs(semitones)) {
 				notes.set(index, testNote);
 			} else if (Math.abs(testSemitones) > Math.abs(semitones)) {
@@ -164,7 +164,7 @@ public class Scale {
 			}
 
 			// use the note with the more similar semitone alteration to the root note
-			int rootSemitones = root.accidental.getSemitoneChange();
+			int rootSemitones = root.getSemitoneChange();
 			if (Math.abs(rootSemitones - testSemitones) < Math.abs(rootSemitones - semitones)) {
 				notes.set(index, testNote);
 			} else if (Math.abs(rootSemitones - testSemitones) > Math.abs(rootSemitones - semitones)) {
