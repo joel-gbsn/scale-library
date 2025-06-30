@@ -13,7 +13,6 @@ import util.Note;
  * @author Joel Gibson
  */
 public class UserInterface {
-	
 	/**
 	 * The processor for processing and retrieving data to display.
 	 */
@@ -24,6 +23,10 @@ public class UserInterface {
 	 */
 	private Scanner scanner;
 	
+	/**
+	 * Creates a new user interface using the given processor.
+	 * @param processor the processor for handling the data
+	 */
 	public UserInterface(Processor processor) {
 		this.processor = processor;
 		this.scanner = new Scanner(System.in);
@@ -42,18 +45,17 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Prompts the user to enter an option number between 1 and the given number.
+	 * Prompts the user to enter an option number up to the given number.
 	 * @param numOptions the maximum number accepted as user input
 	 * @return the user's input cast to an integer, or 0 if they selected to quit
 	 */
 	private int getOption(int numOptions) {
-		// keep prompting user until they enter an option number within range
 		int option;
 		while (true) {
-			// prompt user to enter a number
 			System.out.print("Enter an option number, or 'q' to quit: ");
-			
 			String input = getUserInput();
+			
+			// check if user wants to quit
 			if ("q".equals(input.toLowerCase())) {
 				System.out.println();
 				return 0;
@@ -80,12 +82,12 @@ public class UserInterface {
 	}
 	
 	/**
-	 * The entry point for the user interface.
+	 * The entry point of the user interface.
 	 */
 	public void start() {
 		System.out.println("Welcome to the Scale Library!\n");
 		
-		// execute the main menu actions requested by the user
+		// run the program until the user wants to quit
 		int option;
 		while (true) {
 			printMainMenu();
@@ -109,7 +111,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Displays the scales selected by the user from the given scale set
+	 * Allows the user to view scales from the given scale set
 	 * @param scaleSet the scale set to search (either "base" or "custom")
 	 */
 	public void searchScales(String scaleSet) {
@@ -170,12 +172,12 @@ public class UserInterface {
 	 * @return the note entered by the user, or null if they selected to quit
 	 */
 	public Note chooseRoot() {
-		String input = "";
 		Note root;
 		while (true) {
 			System.out.print("Enter a root note, or 'q' to quit: ");
-			input = getUserInput();
+			String input = getUserInput();
 			
+			// check if user wants to quit
 			if ("q".equals(input.toLowerCase())) {
 				System.out.println();
 				return null;
@@ -187,7 +189,7 @@ public class UserInterface {
 			if (root == null) {
 				System.out.println("Invalid note name.\n");
 			} else if (Math.abs(root.getSemitoneChange()) > 1) {
-				System.out.println("Invalid root (maximum one sharp or flat only).\n");
+				System.out.println("Invalid root (maximum one sharp or flat).\n");
 			} else {
 				return root;
 			}
@@ -217,7 +219,7 @@ public class UserInterface {
 		for (String note : scale.subList(0, scale.size() - 1)) {
 			System.out.print(note);
 			
-			// pad to 5 spaces
+			// pad to 5 characters
 			for (int i = 0; i < 5 - note.length(); i++) {
 				System.out.print(" ");
 			}
@@ -246,13 +248,13 @@ public class UserInterface {
 		}
 		
 		// prompt user for whether scale should be simplified using enharmonics
-		Boolean simplify = chooseSimplify();
-		if (simplify == null) {
+		Boolean simplified = chooseToSimplify();
+		if (simplified == null) {
 			return;
 		}
 		
-		// create the new scale using the user's parameters
-		processor.addCustomScale(name, intervals, simplify);
+		// create the new scale using the requested parameters
+		processor.addCustomScale(name, intervals, simplified);
 		System.out.println("\nScale successfully added.\n");
 	}
 	
@@ -265,6 +267,7 @@ public class UserInterface {
 		String input = getUserInput().toLowerCase();
 		System.out.println();
 		
+		// check if user wants to quit
 		if ("q".equals(input)) {
 			return null;
 		}
@@ -279,19 +282,21 @@ public class UserInterface {
 		List<Interval> intervals = new ArrayList<>();
 		while (true) {
 			System.out.print("Enter the interval sequence (e.g. 1, 2, b3, 5, 6, 8), or q to quit: ");
-			
 			String input = getUserInput();
+			
+			// check if user wants to quit
 			if ("q".equals(input.toLowerCase())) {
 				System.out.println();
 				return null;
 			}
 			
-			// check if interval sequence is valid
+			// create each interval
 			String[] intervalList = input.split(",\\s*");
 			for (String interval : intervalList) {
 				intervals.add(Interval.getInterval(interval));
 			}
 			
+			// check if all intervals are valid
 			if (intervals.contains(null)) {
 				System.out.println("Invalid interval list.\n");
 				intervals.clear();
@@ -304,14 +309,15 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Prompts user to enter whether scale should be simplified.
+	 * Prompts the user to choose whether accidentals should be simplified using enharmonics.
 	 * @return true if scale should be simplified, false if not, or null if user selected to quit
 	 */
-	private Boolean chooseSimplify() {
+	private Boolean chooseToSimplify() {
 		while (true) {
-			System.out.print("Should the scale be simplified using enharmonics (y/n)? Or type 'q' to quit. ");
-			
+			System.out.print("Should the scale be simplified using enharmonics (y/n)? Or type 'q' to quit.");
 			String input = getUserInput().toLowerCase();
+			
+			// check if user wants to quit
 			if ("q".equals(input)) {
 				System.out.println();
 				return null;
@@ -329,7 +335,7 @@ public class UserInterface {
 	}
 	
 	/**
-	 * Prompts the user to remove custom scales from the library.
+	 * Prompts the user to remove a custom scale from the library.
 	 */
 	private void removeCustomScale() {
 		printHeading("Delete custom scale");
@@ -341,7 +347,7 @@ public class UserInterface {
 			return;
 		}
 
-		// find which scale the user wants to search
+		// find which scale the user wants to remove
 		int index = chooseScale(scales);
 		if (index == -1) {
 			return;

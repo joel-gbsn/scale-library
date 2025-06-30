@@ -26,7 +26,7 @@ public class Interval {
 	private static Pattern pattern;
 	
 	/**
-	 * Maps intervals names to the associated Interval objects.
+	 * Maps interval names to the associated Interval objects.
 	 */
 	private static Map<String, Interval> intervals = new HashMap<>();
 	
