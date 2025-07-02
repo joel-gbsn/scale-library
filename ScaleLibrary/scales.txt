@@ -17,3 +17,12 @@ lydian; 1, 2, 3, #4, 5, 6, 7, 8; false
 mixolydian; 1, 2, 3, 4, 5, 6, b7, 8; false
 aeolian; 1, 2, b3, 4, 5, b6, b7, 8; false
 locrian; 1, b2, b3, 4, b5, b6, b7, 8; false
+jazz minor; 1, 2, b3, 4, 5, 6, 7, 8; false
+dorian b2; 1, b2, b3, 4, 5, 6, b7, 8; false
+lydian augmented; 1, 2, 3, #4, #5, 6, 7, 8; false
+acoustic; 1, 2, 3, #4, 5, 6, b7, 8; false
+aeolian dominant; 1, 2, 3, 4, 5, b6, b7, 8; false
+half diminished; 1, 2, b3, 4, b5, b6, b7, 8; false
+super-locrian; 1, b2, b3, b4, b5, b6, b7, 8; false
+Japanese; 1, b2, 4, 5, b6, 8; false
+Arabic; 1, b2, 3, 4, 5, b6, 7, 8; false

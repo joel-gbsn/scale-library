@@ -75,7 +75,7 @@ public class Reader {
 				String data[] = line.trim().split(";\\s*");
 				
 				// extract the scale parameters
-				String name = data[0].toLowerCase().trim();
+				String name = data[0].trim();
 				String[] intervalList = data[1].split(",\\s*");
 				boolean simplified = Boolean.valueOf(data[2].trim());
 				

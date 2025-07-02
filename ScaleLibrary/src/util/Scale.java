@@ -180,6 +180,6 @@ public class Scale implements Comparable<Scale> {
 	
 	@Override
 	public int compareTo(Scale other) {
-		return name.compareTo(other.name);
+		return name.compareToIgnoreCase(other.name);
 	}
 }
