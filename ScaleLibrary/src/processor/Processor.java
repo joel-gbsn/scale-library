@@ -1,6 +1,7 @@
 package processor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ public class Processor {
 	public void addCustomScale(String name, List<Interval> intervals, boolean simplified) {
 		scaleSets.get("custom").add(new Scale(name, intervals, simplified));
 		writeCustomScales();
+		Collections.sort(scaleSets.get("custom"));
 	}
 	
 	/**

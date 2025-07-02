@@ -9,7 +9,7 @@ import java.util.Map;
  * Represents a musical scale type.
  * @author Joel Gibson
  */
-public class Scale {
+public class Scale implements Comparable<Scale> {
 	/**
 	 * Maps root note names to note sequences already created for this scale type.
 	 */
@@ -176,5 +176,10 @@ public class Scale {
 				notes.set(index, testNote);
 			}
 		}
+	}
+	
+	@Override
+	public int compareTo(Scale other) {
+		return name.compareTo(other.name);
 	}
 }

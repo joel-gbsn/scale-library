@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import util.Scale;
@@ -101,6 +102,7 @@ public class Reader {
 			}
 		}
 		
+		Collections.sort(scales);
 		return scales;
 	}
 }
