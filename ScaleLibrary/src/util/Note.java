@@ -33,7 +33,7 @@ public class Note {
 	/**
 	 * Maps note names to the associated Note object.
 	 */
-	private static Map<String, Note> notes = new HashMap<>();
+	protected static Map<String, Note> notes = new HashMap<>();
 	
 	/**
 	 * Creates a new Note with the given letter name and accidental.
@@ -72,6 +72,8 @@ public class Note {
 	 * @return the Note object, of null if note name was invalid
 	 */
 	public static Note getNote(String noteName) {
+		noteName = noteName.toLowerCase();
+		
 		// get note if it has been created previously
 		if (notes.containsKey(noteName)) {
 			return notes.get(noteName);
