@@ -21,14 +21,14 @@ public class Alteration {
 	/**
 	 * Maps alteration symbols to the associated Alteration object.
 	 */
-	private static Map<String, Alteration> alterations = createAllAlterations();
+	protected static Map<String, Alteration> alterations = createAllAlterations();
 	
 	/**
 	 * Creates a new alteration with the given symbol and semitone change.
 	 * @param symbol the alteration symbol
 	 * @param semitoneChange the number of semitones changed by the alteration
 	 */
-	public Alteration(String symbol, int semitoneChange) {
+	protected Alteration(String symbol, int semitoneChange) {
 		this.symbol = symbol;
 		this.semitoneChange = semitoneChange;
 	}
@@ -50,7 +50,7 @@ public class Alteration {
 	}
 	
 	/**
-	 * Gets the Alteration object associated with the given semitone change
+	 * Gets the Alteration object associated with the given semitone change.
 	 * @param semitoneChange the number of semitones
 	 * @return the Alteration object, or null if the semitone change was not valid
 	 */
@@ -67,7 +67,7 @@ public class Alteration {
 	 * Creates all possible alterations between -2 and +2 semitones.
 	 * @return the list of alterations
 	 */
-	private static Map<String, Alteration> createAllAlterations() {
+	protected static Map<String, Alteration> createAllAlterations() {
 		// symbols and their associated semitone changes
 		String[] symbols = {"bb", "b", "", "#", "x"};
 		int[] semitones = {-2, -1, 0, 1, 2};
