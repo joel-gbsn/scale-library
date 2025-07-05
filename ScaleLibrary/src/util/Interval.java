@@ -28,7 +28,7 @@ public class Interval {
 	/**
 	 * Maps interval names to the associated Interval objects.
 	 */
-	private static Map<String, Interval> intervals = new HashMap<>();
+	protected static Map<String, Interval> intervals = new HashMap<>();
 	
 	/**
 	 * The pattern of tones (T) and semitones (S) in a major scale.
@@ -106,7 +106,7 @@ public class Interval {
 	 * Converts the interval size into a simple interval size (within 1 octave).
 	 * @return the simple interval size
 	 */
-	int simplifySize() {
+	public int simplifySize() {
 		return (size - 1) % 7 + 1;
 	}
 	
