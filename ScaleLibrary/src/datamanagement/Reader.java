@@ -57,7 +57,7 @@ public class Reader {
 	 * @param filename the name of the file to read
 	 * @return the list of scales from the file
 	 */
-	public List<Scale> readScales(String filename) {
+	protected List<Scale> readScales(String filename) {
 		List<Scale> scales = new ArrayList<>();
 		
 		File file = new File(filename);
