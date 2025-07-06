@@ -13,7 +13,7 @@ public class Scale implements Comparable<Scale> {
 	/**
 	 * Maps root note names to note sequences already created for this scale type.
 	 */
-	private Map<String, List<Note>> scales = new HashMap<>();
+	protected Map<String, List<Note>> scales = new HashMap<>();
 	
 	/**
 	 * The scale name/type (e.g. major).
@@ -128,7 +128,7 @@ public class Scale implements Comparable<Scale> {
 		for (int i = 0; i < notes.size(); i++) {
 			Note nextNote = notes.get(i);
 			// only simplify non-root notes
-			if (nextNote != null && !root.equals(nextNote)) {
+			if (!root.equals(nextNote)) {
 				simplifyAccidentals(notes, root, i);
 			}
 		}
