@@ -20,7 +20,7 @@ public class Processor {
 	/**
 	 * The map containing each scale set ("base" and "custom").
 	 */
-	private Map<String, List<Scale>> scaleSets = new HashMap<>();
+	protected Map<String, List<Scale>> scaleSets = new HashMap<>();
 	
 	/**
 	 * The writer for saving custom scales to file.
@@ -109,7 +109,7 @@ public class Processor {
 	 * @param index the position of the scale in the scale set
 	 * @return the scale
 	 */
-	private Scale getScale(String scaleSet, int index) {
+	protected Scale getScale(String scaleSet, int index) {
 		return scaleSets.get(scaleSet).get(index);
 	}
 	
