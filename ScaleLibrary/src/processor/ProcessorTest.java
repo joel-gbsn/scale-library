@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import datamanagement.Reader;
 import datamanagement.Writer;
 import util.Interval;
+import util.Note;
 import util.Scale;
 
 class ProcessorTest {
@@ -27,10 +27,6 @@ class ProcessorTest {
 		Reader reader = new Reader("test1.txt", "test2.txt");
 		Writer writer = new Writer("test3.txt");
 		this.processor = new Processor(reader, writer);
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
 	}
 
 	@Test
@@ -116,12 +112,39 @@ class ProcessorTest {
 
 	@Test
 	void testGetScaleNames() {
-		fail("Not yet implemented"); // TODO
+		// test some valid scale names
+		List<Scale> customScales = this.processor.scaleSets.get("custom");
+		customScales.add(new Scale("test1", null, true));
+		customScales.add(new Scale("test2", null, true));
+		
+		List<String> scaleNames = this.processor.getScaleNames("custom");
+		assertEquals(2, scaleNames.size(), "incorrect number of scale names");
+		assertEquals("test1", scaleNames.get(0), "first scale name incorrect");
+		assertEquals("test2", scaleNames.get(1), "second scale name incorrect");
+		
+		// test an empty scale list
+		customScales.clear();
+		assertTrue(this.processor.getScaleNames("custom").isEmpty(), "no scale names should be returned when there are none");
 	}
 
 	@Test
 	void testGetScaleNotes() {
-		fail("Not yet implemented"); // TODO
+		// test a valid scale
+		List<Scale> customScales = this.processor.scaleSets.get("custom");
+		List<Interval> intervals = new ArrayList<>();
+		intervals.add(Interval.getInterval("1"));
+		intervals.add(Interval.getInterval("b3"));
+		intervals.add(Interval.getInterval("bb7"));
+		customScales.add(new Scale("test1", intervals, false));
+		
+		List<String> notes = this.processor.getScaleNotes("custom", 0, Note.getNote("C"));
+		assertEquals(3, notes.size(), "incorrect number of note names");
+		assertEquals("C", notes.get(0), "natural note name incorrect");
+		assertEquals("Eb", notes.get(1), "flattened note name incorrect");
+		assertEquals("Bbb", notes.get(2), "doubly flattened note name incorrect");
+		
+		// test an invalid scale
+		assertNull(this.processor.getScaleNotes("custom", 0, Note.getNote("Cb")), "scales requiring more than 2 sharps/flats should be returned as null");
 	}
 
 	@Test
@@ -169,11 +192,31 @@ class ProcessorTest {
 
 	@Test
 	void testGetScale() {
-		fail("Not yet implemented"); // TODO
+		// test some valid scales
+		List<Scale> customScales = this.processor.scaleSets.get("custom");
+		customScales.add(new Scale("test1", null, false));
+		customScales.add(new Scale("test2", null, false));
+		customScales.add(new Scale("test3", null, false));
+		
+		assertEquals("test1", this.processor.getScale("custom", 0).getName(), "first scale incorrectly returned");
+		assertEquals("test2", this.processor.getScale("custom", 1).getName(), "middle scale incorrectly returned");
+		assertEquals("test3", this.processor.getScale("custom", 2).getName(), "last scale incorrectly returned");
 	}
 
 	@Test
 	void testGetIntervalList() {
-		fail("Not yet implemented"); // TODO
+		// test a valid scale
+		List<Scale> customScales = this.processor.scaleSets.get("custom");
+		List<Interval> intervals = new ArrayList<>();
+		intervals.add(Interval.getInterval("1"));
+		intervals.add(Interval.getInterval("b3"));
+		intervals.add(Interval.getInterval("bb7"));
+		customScales.add(new Scale("test1", intervals, false));
+
+		List<String> intervalNames = this.processor.getIntervalList("custom", 0);
+		assertEquals(3, intervalNames.size(), "incorrect number of intervals");
+		assertEquals("1", intervalNames.get(0), "unaltered interval name incorrect");
+		assertEquals("b3", intervalNames.get(1), "lowered interval name incorrect");
+		assertEquals("bb7", intervalNames.get(2), "doubly lowered interval name incorrect");
 	}
 }
